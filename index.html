@@ -1,0 +1,505 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fff7fc">
+  <title>DreamWeave — Your dreams, your glow</title>
+  <style>
+    :root {
+      --pink: #f5c4df;
+      --pink-dark: #c45c99;
+      --purple: #d9cdfc;
+      --ink: #49394f;
+      --muted: #87798d;
+      --white: #fffdfd;
+      --bg: #fff8fc;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    button, textarea { font: inherit; }
+    button { cursor: pointer; }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 7%;
+      background: rgba(255,255,255,.85);
+      border-bottom: 1px solid #f4e6f0;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      font-size: 23px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    .brand span { color: var(--pink-dark); }
+
+    .nav-button, .primary, .secondary {
+      border: 0;
+      border-radius: 24px;
+      padding: 11px 19px;
+      font-weight: 700;
+    }
+
+    .nav-button, .primary {
+      background: var(--pink-dark);
+      color: white;
+    }
+
+    .hero {
+      padding: 65px 20px 52px;
+      text-align: center;
+      background:
+        radial-gradient(ellipse at 15% 20%, #fbe0f0 0, transparent 36%),
+        radial-gradient(ellipse at 85% 10%, #e7ddff 0, transparent 35%),
+        var(--bg);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      background: white;
+      border: 1px solid #f2dcec;
+      border-radius: 30px;
+      padding: 8px 14px;
+      color: var(--pink-dark);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: clamp(39px, 7vw, 68px);
+      line-height: 1.08;
+      letter-spacing: -2.5px;
+      margin: 22px auto 16px;
+      max-width: 760px;
+    }
+
+    h1 span {
+      color: var(--pink-dark);
+    }
+
+    .hero p {
+      max-width: 520px;
+      margin: 0 auto 25px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .primary { padding: 14px 23px; }
+    .secondary {
+      background: white;
+      border: 1px solid #eaddeb;
+      color: var(--ink);
+    }
+
+    .section {
+      max-width: 1000px;
+      margin: auto;
+      padding: 36px 22px;
+    }
+
+    .section-heading {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .section-heading h2 {
+      font-size: 28px;
+      margin: 0 0 8px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .dream-card {
+      background: white;
+      border: 1px solid #f0e3ef;
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: 0 8px 28px #6b38630a;
+    }
+
+    .compose { max-width: 680px; margin: auto; }
+
+    .compose label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    textarea {
+      display: block;
+      width: 100%;
+      min-height: 115px;
+      resize: vertical;
+      border: 1px solid #e9dce9;
+      border-radius: 14px;
+      padding: 15px;
+      outline: none;
+      color: var(--ink);
+      background: #fffbfe;
+      line-height: 1.6;
+    }
+
+    textarea:focus {
+      border-color: #ce92bc;
+      box-shadow: 0 0 0 3px #f5dced;
+    }
+
+    .compose-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 13px;
+      flex-wrap: wrap;
+    }
+
+    .compose-bottom small { color: var(--muted); }
+
+    .dream-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .dream-post {
+      border-radius: 19px;
+      padding: 20px;
+      min-height: 190px;
+      border: 1px solid #f0e4f2;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .dream-post:nth-child(3n+1) { background: #fff0f7; }
+    .dream-post:nth-child(3n+2) { background: #f4efff; }
+    .dream-post:nth-child(3n) { background: #fff8e9; }
+
+    .post-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #ffffffc9;
+      font-size: 18px;
+    }
+
+    .post-name { font-size: 13px; font-weight: 800; }
+    .post-time { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+    .post-text {
+      line-height: 1.7;
+      font-size: 14px;
+      overflow-wrap: anywhere;
+      flex: 1;
+    }
+
+    .post-actions { margin-top: 16px; }
+
+    .like-button {
+      background: #ffffffa8;
+      color: #a44e83;
+      border: 1px solid #efd8e9;
+      border-radius: 20px;
+      padding: 7px 12px;
+      font-size: 13px;
+    }
+
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 25px;
+      line-height: 1.7;
+    }
+
+    .note {
+      max-width: 680px;
+      margin: 22px auto 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+      text-align: center;
+    }
+
+    footer {
+      margin-top: 30px;
+      text-align: center;
+      padding: 30px 20px;
+      border-top: 1px solid #f1e4ef;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--ink);
+      color: white;
+      padding: 12px 18px;
+      border-radius: 24px;
+      z-index: 10;
+      max-width: 90%;
+      text-align: center;
+      box-shadow: 0 6px 25px #49394f30;
+    }
+
+    [hidden] { display: none !important; }
+
+    @media (max-width: 700px) {
+      header { padding: 15px 5%; }
+      .brand { font-size: 20px; }
+      .hero { padding-top: 50px; }
+      .dream-grid { grid-template-columns: 1fr; }
+      .section { padding: 28px 16px; }
+      h1 { letter-spacing: -1.5px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">Dream<span>Weave</span> ✧</div>
+    <button class="nav-button" onclick="document.getElementById('share').scrollIntoView({behavior:'smooth'})">
+      Share a dream
+    </button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow">♡ A little space to become you</div>
+      <h1>Your dreams.<br>Your <span>glow.</span> Together.</h1>
+      <p>
+        A gentle corner of the internet to share your dreams,
+        celebrate little wins, find inspiration, and grow alongside
+        people who believe in becoming their best selves.
+      </p>
+      <button class="primary" onclick="document.getElementById('share').scrollIntoView({behavior:'smooth'})">
+        Plant your first dream ✿
+      </button>
+    </section>
+
+    <section class="section" id="share">
+      <div class="section-heading">
+        <h2>What's on your heart? 💗</h2>
+        <p>Every big dream begins with a little thought.</p>
+      </div>
+
+      <div class="dream-card compose">
+        <label for="dreamInput">Your little piece of the universe</label>
+        <textarea id="dreamInput" maxlength="500"
+          placeholder="I dream of... / Today I'm proud of myself because..."></textarea>
+        <div class="compose-bottom">
+          <small id="charCount">0 / 500 characters</small>
+          <button class="primary" id="shareButton">Share my dream ✨</button>
+        </div>
+      </div>
+      <p class="note">
+        This is an early prototype. Posts are saved only in this browser
+        when possible; they are not shared with other visitors yet.
+        Please don't enter private or sensitive information.
+      </p>
+    </section>
+
+    <section class="section">
+      <div class="section-heading">
+        <h2>A garden of dreams 🌷</h2>
+        <p>Little reminders that we're all growing in our own ways.</p>
+      </div>
+      <div class="dream-grid" id="dreamGrid"></div>
+      <div class="empty" id="emptyMessage" hidden>
+        Your garden is waiting for its first dream. 🌱
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Made with ♡ for every dreamer.<br><br>
+    DreamWeave · Your dreams. Your glow. Together.
+  </footer>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <script>
+    const input = document.getElementById('dreamInput');
+    const shareButton = document.getElementById('shareButton');
+    const dreamGrid = document.getElementById('dreamGrid');
+    const emptyMessage = document.getElementById('emptyMessage');
+    const charCount = document.getElementById('charCount');
+    const toast = document.getElementById('toast');
+
+    const starterDreams = [
+      {
+        name: 'A fellow dreamer',
+        emoji: '🌷',
+        text: 'I want to become someone who makes people feel safe, loved, and understood.'
+      },
+      {
+        name: 'A little sunflower',
+        emoji: '🌻',
+        text: 'My goal is to keep learning new things and never stop being curious about the world.'
+      },
+      {
+        name: 'Growing gently',
+        emoji: '🦋',
+        text: 'Reminder to myself: I do not need to have everything figured out to begin.'
+      }
+    ];
+
+    let dreams = [];
+    let liked = new Set();
+
+    try {
+      const saved = localStorage.getItem('dreamweave-dreams');
+      if (saved) dreams = JSON.parse(saved);
+      if (!Array.isArray(dreams)) dreams = [];
+    } catch (error) {
+      dreams = [];
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.hidden = false;
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => {
+        toast.hidden = true;
+      }, 2800);
+    }
+
+    function saveDreams() {
+      try {
+        localStorage.setItem('dreamweave-dreams', JSON.stringify(dreams));
+        return true;
+      } catch (error) {
+        showToast('Browser storage is unavailable. Your post may not be saved.');
+        return false;
+      }
+    }
+
+    function makePost(dream, index, isExample) {
+      const card = document.createElement('article');
+      card.className = 'dream-post';
+
+      const top = document.createElement('div');
+      top.className = 'post-top';
+
+      const avatar = document.createElement('div');
+      avatar.className = 'avatar';
+      avatar.textContent = dream.emoji || '🌸';
+
+      const identity = document.createElement('div');
+      const name = document.createElement('div');
+      name.className = 'post-name';
+      name.textContent = dream.name || 'A dreamer';
+
+      const time = document.createElement('div');
+      time.className = 'post-time';
+      time.textContent = isExample ? 'A little inspiration' : 'Your browser · just now';
+
+      identity.append(name, time);
+      top.append(avatar, identity);
+
+      const text = document.createElement('div');
+      text.className = 'post-text';
+      text.textContent = dream.text;
+
+      const actions = document.createElement('div');
+      actions.className = 'post-actions';
+
+      const like = document.createElement('button');
+      like.className = 'like-button';
+      like.textContent = '♡ Send love';
+      like.setAttribute('aria-label', 'Like this dream');
+
+      like.addEventListener('click', () => {
+        const key = (isExample ? 'example-' : 'dream-') + index;
+        if (liked.has(key)) {
+          liked.delete(key);
+          like.textContent = '♡ Send love';
+        } else {
+          liked.add(key);
+          like.textContent = '♥ Sending love';
+        }
+      });
+
+      actions.append(like);
+      card.append(top, text, actions);
+      return card;
+    }
+
+    function renderDreams() {
+      dreamGrid.replaceChildren();
+
+      const examples = starterDreams.map((dream, index) =>
+        makePost(dream, index, true)
+      );
+      const personal = dreams.slice().reverse().map((dream, index) =>
+        makePost(dream, index, false)
+      );
+
+      [...personal, ...examples].forEach(post => dreamGrid.append(post));
+      emptyMessage.hidden = dreams.length > 0;
+    }
+
+    input.addEventListener('input', () => {
+      charCount.textContent = input.value.length + ' / 500 characters';
+    });
+
+    shareButton.addEventListener('click', () => {
+      const message = input.value.trim();
+
+      if (!message) {
+        showToast('Write a little dream first, bestie. 💗');
+        input.focus();
+        return;
+      }
+
+      dreams.push({
+        name: 'My dream',
+        emoji: '🌸',
+        text: message,
+        createdAt: new Date().toISOString()
+      });
+
+      saveDreams();
+      input.value = '';
+      charCount.textContent = '0 / 500 characters';
+      renderDreams();
+      showToast('Your dream has been planted! 🌱');
+
+      document.querySelector('.section-heading:last-of-type');
+    });
+
+    renderDreams();
+  </script>
+</body>
+</html>
